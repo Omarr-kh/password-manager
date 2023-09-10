@@ -14,6 +14,8 @@ def save_data():
     password = password_input.get()
     with open("data.txt", 'a') as f:
         f.write(f"{website} | {user} | {password}\n")
+    website_input.delete(0, tk.END)
+    password_input.delete(0, tk.END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 #   Window Setup
