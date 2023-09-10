@@ -6,7 +6,9 @@ import random
 #   CONSTANTS
 LABELS_FONT = ("arial", 12, "bold")
 BG_COLOR = "white"
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+
 
 def generate_password():
 
@@ -20,9 +22,12 @@ def generate_password():
 
     password_list = []
 
-    [password_list.append(random.choice(letters)) for _ in range(random.randint(8, 10))]
-    [password_list.append(random.choice(symbols)) for _ in range(random.randint(2, 4))]
-    [password_list.append(random.choice(numbers)) for _ in range(random.randint(2, 4))]
+    [password_list.append(random.choice(letters))
+     for _ in range(random.randint(8, 10))]
+    [password_list.append(random.choice(symbols))
+     for _ in range(random.randint(2, 4))]
+    [password_list.append(random.choice(numbers))
+     for _ in range(random.randint(2, 4))]
 
     random.shuffle(password_list)
     password_input.delete(0, tk.END)
@@ -31,6 +36,7 @@ def generate_password():
     password_input.insert(0, p)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+
 
 def save_data():
     # this function saves data of the password to a txt file 'data.txt'
@@ -41,13 +47,15 @@ def save_data():
     if not (website and user and password):
         mb.showinfo(title="Error", message="Fill all fields!")
     else:
-        confirmed = mb.askyesno(title="Confirmation Message", message=f"Website: {website}\nUser: {user}\nPassword: {password}\n\nDo You Want to Confirm?")
+        confirmed = mb.askyesno(title="Confirmation Message",
+                                message=f"Website: {website}\nUser: {user}\nPassword: {password}\n\nDo You Want to Confirm?")
 
         if confirmed:
             with open("data.txt", 'a') as f:
                 f.write(f"{website} | {user} | {password}\n")
             website_input.delete(0, tk.END)
             password_input.delete(0, tk.END)
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 #   Window Setup
@@ -86,7 +94,8 @@ password_input = tk.Entry(width=31)
 password_input.grid(column=1, row=3)
 
 # Buttons
-generate_button = tk.Button(text="Generate Password", bg=BG_COLOR, command=generate_password)
+generate_button = tk.Button(
+    text="Generate Password", bg=BG_COLOR, command=generate_password)
 generate_button.grid(column=2, row=3)
 
 add_button = tk.Button(text="Add", width=44, bg=BG_COLOR, command=save_data)
