@@ -1,10 +1,31 @@
 import tkinter as tk
 import tkinter.messagebox as mb
+import random
 
 #   CONSTANTS
 LABELS_FONT = ("arial", 12, "bold")
 BG_COLOR = "white"
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+
+def generate_password():
+
+    letters = []
+    for i in range(ord('a'), ord('z') + 1):
+        letters.append(chr(i))
+        letters.append(chr(i - 32))
+
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    password_list = []
+
+    [password_list.append(random.choice(letters)) for _ in range(random.randint(8, 10))]
+    [password_list.append(random.choice(symbols)) for _ in range(random.randint(2, 4))]
+    [password_list.append(random.choice(numbers)) for _ in range(random.randint(2, 4))]
+
+    random.shuffle(password_list)
+    password_input.delete(0, tk.END)
+    password_input.insert(0, "".join(password_list))
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
@@ -62,7 +83,7 @@ password_input = tk.Entry(width=31)
 password_input.grid(column=1, row=3)
 
 # Buttons
-generate_button = tk.Button(text="Generate Password", bg=BG_COLOR)
+generate_button = tk.Button(text="Generate Password", bg=BG_COLOR, command=generate_password)
 generate_button.grid(column=2, row=3)
 
 add_button = tk.Button(text="Add", width=44, bg=BG_COLOR, command=save_data)
