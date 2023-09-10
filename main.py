@@ -7,6 +7,14 @@ BG_COLOR = "white"
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
+def save_data():
+    # this function saves data of the password to a txt file 'data.txt'
+    website = website_input.get()
+    user = user_input.get()
+    password = password_input.get()
+    with open("data.txt", 'a') as f:
+        f.write(f"{website} | {user} | {password}\n")
+
 # ---------------------------- UI SETUP ------------------------------- #
 #   Window Setup
 window = tk.Tk()
@@ -34,9 +42,11 @@ password_label.grid(column=0, row=3)
 #   Input Fields
 website_input = tk.Entry(width=50)
 website_input.grid(column=1, row=1, columnspan=2)
+website_input.focus()
 
 user_input = tk.Entry(width=50)
 user_input.grid(column=1, row=2, columnspan=2)
+user_input.insert(0, "omar@mail.com")
 
 password_input = tk.Entry(width=31)
 password_input.grid(column=1, row=3)
@@ -45,7 +55,7 @@ password_input.grid(column=1, row=3)
 generate_button = tk.Button(text="Generate Password", bg=BG_COLOR)
 generate_button.grid(column=2, row=3)
 
-add_button = tk.Button(text="Add", width=44, bg=BG_COLOR)
+add_button = tk.Button(text="Add", width=44, bg=BG_COLOR, command=save_data)
 add_button.grid(column=1, row=4, columnspan=2)
 
 window.mainloop()
