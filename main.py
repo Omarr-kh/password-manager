@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.messagebox as mb
 
 #   CONSTANTS
 LABELS_FONT = ("arial", 12, "bold")
@@ -12,10 +13,17 @@ def save_data():
     website = website_input.get()
     user = user_input.get()
     password = password_input.get()
-    with open("data.txt", 'a') as f:
-        f.write(f"{website} | {user} | {password}\n")
-    website_input.delete(0, tk.END)
-    password_input.delete(0, tk.END)
+
+    if not (website and user and password):
+        mb.showinfo(title="Error", message="Fill all fields!")
+    else:
+        confirmed = mb.askyesno(title="Confirmation Message", message=f"Website: {website}\nUser: {user}\nPassword: {password}\n\nDo You Want to Confirm?")
+
+        if confirmed:
+            with open("data.txt", 'a') as f:
+                f.write(f"{website} | {user} | {password}\n")
+            website_input.delete(0, tk.END)
+            password_input.delete(0, tk.END)
 
 # ---------------------------- UI SETUP ------------------------------- #
 #   Window Setup

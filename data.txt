@@ -1,3 +1,6 @@
 FaceBook | Omar@gmail.com | testthefunction
 
 Omar | omar@mail.com | testteset
+hamada | omar@mail.com | electric
+hamasa | bbbbb | 12345
+coco | omar@mail.com | nnnnn
