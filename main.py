@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.messagebox as mb
 import pyperclip
+import json
 import random
 
 #   CONSTANTS
@@ -35,6 +36,22 @@ def generate_password():
     pyperclip.copy(p)
     password_input.insert(0, p)
 
+# ---------------------------- Search ------------------------------- #
+
+
+def search():
+    website = website_input.get()
+
+    try:
+        with open("data.json") as f:
+            data = json.load(f)
+            email = data[website]["email"]
+            password = data[website]["password"]
+    except (FileNotFoundError, KeyError):
+        return
+    else:
+        mb.showinfo(title=f"{website}", message=f"Email: {email}\nPassword: {password}\n")
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 
@@ -47,12 +64,26 @@ def save_data():
     if not (website and user and password):
         mb.showinfo(title="Error", message="Fill all fields!")
     else:
+        new_data = {
+            website: {
+                "email": user,
+                "password": password
+            }
+        }
         confirmed = mb.askyesno(title="Confirmation Message",
                                 message=f"Website: {website}\nUser: {user}\nPassword: {password}\n\nDo You Want to Confirm?")
 
         if confirmed:
-            with open("data.txt", 'a') as f:
-                f.write(f"{website} | {user} | {password}\n")
+            try:
+                with open("data.json", 'r') as f:
+                    data = json.load(f)
+                    data.update(new_data)
+            except FileNotFoundError:
+                data = new_data
+
+            with open("data.json", 'w') as f:
+                json.dump(data, f, indent=4)
+
             website_input.delete(0, tk.END)
             password_input.delete(0, tk.END)
 
@@ -82,8 +113,8 @@ password_label = tk.Label(text="Password:", font=LABELS_FONT, bg=BG_COLOR)
 password_label.grid(column=0, row=3)
 
 #   Input Fields
-website_input = tk.Entry(width=50)
-website_input.grid(column=1, row=1, columnspan=2)
+website_input = tk.Entry(width=31)
+website_input.grid(column=1, row=1)
 website_input.focus()
 
 user_input = tk.Entry(width=50)
@@ -100,5 +131,8 @@ generate_button.grid(column=2, row=3)
 
 add_button = tk.Button(text="Add", width=44, bg=BG_COLOR, command=save_data)
 add_button.grid(column=1, row=4, columnspan=2)
+
+search_button = tk.Button(text="Search", bg=BG_COLOR, width=14, command=search)
+search_button.grid(column=2, row=1)
 
 window.mainloop()
